@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "FarmDefaultPawn.generated.h"
 
+class UFarmMovementComponent;
+
 UCLASS()
 class WORLDSTATE_API AFarmDefaultPawn : public APawn
 {
@@ -26,4 +28,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	/**  */
+	UPROPERTY(Category = Pawn, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UFarmMovementComponent> MovementComponent;
 };
