@@ -24,7 +24,6 @@ void UPlantComponent::BeginPlay()
 			currentPlantTime = Subsystem->GetWorldTime();
 		}
 	}
-
 }
 
 void UPlantComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -52,6 +51,7 @@ void UPlantComponent::ClearPlantActor()
 
 void UPlantComponent::UpdateFromTime(float dealTime)
 {
+	if (PlantConfig == nullptr) return;
 	float LocalTime;
 	float worldTime = FMath::Max(0.f, dealTime - currentPlantTime);
 	
