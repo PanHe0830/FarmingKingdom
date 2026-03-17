@@ -21,6 +21,11 @@
 			"PlatformAllowList": [
 				"Win64"
 			]
+		},
+		{
+			"Name": "PlacementBuild",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
 		}
 	]
 }
