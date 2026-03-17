@@ -2,6 +2,12 @@
 
 
 #include "WorldDefaultPawn.h"
+#include "PlacementBuildComponent.h"
+
+AWorldDefaultPawn::AWorldDefaultPawn()
+{
+	BuildComponent = CreateDefaultSubobject<UPlacementBuildComponent>("BuildComponent");
+}
 
 void AWorldDefaultPawn::SetupPlayerInputComponent(UInputComponent* InInputComponent)
 {

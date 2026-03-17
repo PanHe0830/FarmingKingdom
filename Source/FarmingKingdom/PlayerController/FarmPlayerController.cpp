@@ -32,14 +32,5 @@ void AFarmPlayerController::BeginPlay()
 
 void AFarmPlayerController::MouseClick()
 {
-	//FHitResult HitResult;
-	//GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
-	//if (HitResult.bBlockingHit)
-	//{
-	//	UE_LOG(LogTemp, Warning, TEXT("Hit Actor: %s"), *HitResult.GetActor()->GetName());
-	//}
-	//else
-	//{
-	//	UE_LOG(LogTemp, Warning, TEXT("No Hit"));
-	//}
+	
 }

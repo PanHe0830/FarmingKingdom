@@ -26,6 +26,7 @@ public class WorldState : ModuleRules
 			new string[]
 			{
 				"Core",
+                "PlacementBuild",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
