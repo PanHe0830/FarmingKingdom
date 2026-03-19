@@ -2,6 +2,7 @@
 
 
 #include "PlacementBuildComponent.h"
+#include "PlacementBuildTool.h"
 
 // Sets default values for this component's properties
 UPlacementBuildComponent::UPlacementBuildComponent()
@@ -10,7 +11,7 @@ UPlacementBuildComponent::UPlacementBuildComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
-	// ...
+	BuildTool = MakeShared<PlacementBuildTool>();
 }
 
 

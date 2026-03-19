@@ -6,7 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "PlacementBuildComponent.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PLACEMENTBUILD_API UPlacementBuildComponent : public UActorComponent
 {
@@ -24,5 +23,5 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	TSharedPtr<class PlacementBuildTool> BuildTool;
 };
