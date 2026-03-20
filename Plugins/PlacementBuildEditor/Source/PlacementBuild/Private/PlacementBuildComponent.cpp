@@ -11,7 +11,6 @@ UPlacementBuildComponent::UPlacementBuildComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
-	BuildTool = MakeShared<PlacementBuildTool>();
 }
 
 
@@ -21,7 +20,9 @@ void UPlacementBuildComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+	BuildTool = MakeUnique<PlacementBuildTool>();
+
+	//BuildTool->Init(GetWorld());
 }
 
 

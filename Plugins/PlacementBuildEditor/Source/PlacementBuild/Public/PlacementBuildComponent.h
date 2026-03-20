@@ -23,5 +23,5 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	TSharedPtr<class PlacementBuildTool> BuildTool;
+	TUniquePtr<class PlacementBuildTool> BuildTool;
 };
