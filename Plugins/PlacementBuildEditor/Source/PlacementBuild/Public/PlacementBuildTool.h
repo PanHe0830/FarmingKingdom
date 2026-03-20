@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlacementResult.h"
 
 /**
  * 
@@ -12,4 +13,7 @@ class PLACEMENTBUILD_API PlacementBuildTool
 public:
 	PlacementBuildTool();
 	~PlacementBuildTool();
+
+public:
+	FBuildRuntimeBuildResult GetRuntimeBuildResult(const FBuildRuntimeClickedContext& ClickedContext);
 };

@@ -10,3 +10,8 @@ PlacementBuildTool::PlacementBuildTool()
 PlacementBuildTool::~PlacementBuildTool()
 {
 }
+
+FBuildRuntimeBuildResult PlacementBuildTool::GetRuntimeBuildResult(const FBuildRuntimeClickedContext& ClickedContext)
+{
+    return FBuildRuntimeBuildResult();
+}
