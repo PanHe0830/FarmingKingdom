@@ -14,6 +14,14 @@ void AWorldDefaultPawn::SetupPlayerInputComponent(UInputComponent* InInputCompon
 	Super::SetupPlayerInputComponent(InInputComponent);
 }
 
+void AWorldDefaultPawn::MouseClick()
+{
+	if (BuildComponent)
+	{
+		BuildComponent->MouseClick();
+	}
+}
+
 void AWorldDefaultPawn::BeginPlay()
 {
 	Super::BeginPlay();

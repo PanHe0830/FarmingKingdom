@@ -9,6 +9,12 @@ PlacementBuildTool::PlacementBuildTool()
 
 PlacementBuildTool::~PlacementBuildTool()
 {
+    World = nullptr;
+}
+
+void PlacementBuildTool::Initialize(UWorld* InWorld)
+{
+    World = InWorld;
 }
 
 FBuildRuntimeBuildResult PlacementBuildTool::GetRuntimeBuildResult(const FBuildRuntimeClickedContext& ClickedContext)

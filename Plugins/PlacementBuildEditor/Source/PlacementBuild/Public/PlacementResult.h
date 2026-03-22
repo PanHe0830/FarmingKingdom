@@ -11,7 +11,7 @@
 
 struct FBuildRuntimeClickedContext
 {
-
+	FHitResult HitResult;
 };
 
 struct FBuildRuntimeBuildResult

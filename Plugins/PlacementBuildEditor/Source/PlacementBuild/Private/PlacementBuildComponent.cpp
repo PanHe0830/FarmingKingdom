@@ -21,8 +21,7 @@ void UPlacementBuildComponent::BeginPlay()
 
 	// ...
 	BuildTool = MakeUnique<PlacementBuildTool>();
-
-	//BuildTool->Init(GetWorld());
+	BuildTool->Initialize(GetWorld());
 }
 
 
@@ -32,5 +31,14 @@ void UPlacementBuildComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UPlacementBuildComponent::MouseClick()
+{
+	FBuildRuntimeClickedContext buildContext;
+	if (BuildTool.IsValid())
+	{
+		BuildTool->GetRuntimeBuildResult(buildContext);
+	}
 }
 

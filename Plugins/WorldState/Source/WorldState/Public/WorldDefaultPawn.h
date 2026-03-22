@@ -18,11 +18,12 @@ class WORLDSTATE_API AWorldDefaultPawn : public ADefaultPawn
 	
 	virtual void SetupPlayerInputComponent(UInputComponent* InInputComponent) override;
 
+public:
+	void MouseClick();
+
 protected:
 	void BeginPlay() override;
 
-	/** »áÉ¾³ý */
 	UPROPERTY()
 	TObjectPtr<class UPlacementBuildComponent> BuildComponent;
-	/** »áÉ¾³ý */
 };

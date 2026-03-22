@@ -13,7 +13,12 @@ class PLACEMENTBUILD_API PlacementBuildTool
 public:
 	PlacementBuildTool();
 	~PlacementBuildTool();
+public:
+	void Initialize(UWorld* InWorld);
 
 public:
 	FBuildRuntimeBuildResult GetRuntimeBuildResult(const FBuildRuntimeClickedContext& ClickedContext);
+
+private:
+	UWorld* World = nullptr;
 };

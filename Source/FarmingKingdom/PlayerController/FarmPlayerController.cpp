@@ -4,6 +4,8 @@
 #include "FarmPlayerController.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/PlayerInput.h"
+#include "WorldDefaultPawn.h"
+#include "PlacementResult.h"
 
 void SelfBindAction()
 {
@@ -32,5 +34,10 @@ void AFarmPlayerController::BeginPlay()
 
 void AFarmPlayerController::MouseClick()
 {
-	
+	AWorldDefaultPawn* defaultPawn = Cast<AWorldDefaultPawn>(GetPawn());
+	FBuildRuntimeClickedContext buildContext;
+	if (defaultPawn)
+	{
+		defaultPawn->MouseClick();
+	}
 }
