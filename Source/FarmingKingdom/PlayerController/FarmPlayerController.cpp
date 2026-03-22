@@ -57,6 +57,15 @@ void AFarmPlayerController::MouseClick()
 		ECC_Visibility,
 		Params
 	);
+
+	//FBRTIgnoreContext ignoreContext;
+	//
+	//FBRTActorContext actorContext;
+	//actorContext.BuildBound = FBoxSphereBounds(HitResult.ImpactPoint, FVector(50, 50, 50), 50);
+	//
+	//FBRTHitResult hitContext;
+	//hitContext.HitResult = HitResult;
+	//hitContext.bHit = bHit;
 	
 	FBuildRuntimeClickedContext buildContext;
 	buildContext.HitResult;

@@ -18,6 +18,24 @@ struct FBuildRuntimeClickedContext
 	bool bHit;
 };
 
+struct FBRTIgnoreContext
+{
+	TArray<AActor*> IgnoreActors;
+	TArray<UStaticMeshComponent*> IgnoreStaticMeshComponent;
+};
+
+struct FBRTActorContext
+{
+	FTransform BuildTransform;
+	FBoxSphereBounds BuildBound;
+};
+
+struct FBRTHitResult
+{
+	FHitResult HitResult;
+	bool bHit;
+};
+
 struct FBuildRuntimeBuildResult
 {
 	FBuildRuntimeBuildResult()

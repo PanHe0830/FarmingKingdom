@@ -19,15 +19,32 @@ void PlacementBuildTool::Initialize(UWorld* InWorld)
 
 FBuildRuntimeBuildResult PlacementBuildTool::GetRuntimeBuildResult(const FBuildRuntimeClickedContext& ClickedContext)
 {
-    FBuildRuntimeBuildResult buildResult;
-    buildResult.isSuccess = false;
+	UE_LOG(LogTemp, Warning, TEXT("GetRuntimeBuildResult"));
 
+	FBuildRuntimeBuildResult BuildResult;
+	BuildResult.isSuccess = false;
+
+	if (!World)
+	{
+		return BuildResult;
+	}
+
+	//--------------------------------------
+	// 1. 基础数据
+	//--------------------------------------
 	const FVector HalfExtent = ClickedContext.BuildBound.BoxExtent;
 
-	const FVector SurfaceNormal = ClickedContext.HitResult.ImpactNormal.GetSafeNormal();
+	const FVector SurfaceNormal =
+		ClickedContext.HitResult.ImpactNormal.GetSafeNormal();
 
-	constexpr float PlacementEpsilon = 0.1f;
+	const FVector ImpactPoint =
+		ClickedContext.HitResult.ImpactPoint;
 
+	constexpr float PlacementEpsilon = 0.5f; // 稍微加大一点更稳定
+
+	//--------------------------------------
+	// 2. 获取被点击物体的尺寸
+	//--------------------------------------
 	FVector HitHalfExtent = FVector::ZeroVector;
 
 	if (const UPrimitiveComponent* HitComp = ClickedContext.HitResult.GetComponent())
@@ -35,53 +52,98 @@ FBuildRuntimeBuildResult PlacementBuildTool::GetRuntimeBuildResult(const FBuildR
 		HitHalfExtent = HitComp->Bounds.BoxExtent;
 	}
 
-	const float NewMeshExtentAlongNormal =
-		HalfExtent.ProjectOnToNormal(SurfaceNormal).Size();
+	//--------------------------------------
+	// 3. 计算沿法线方向的“厚度”
+	//--------------------------------------
+	const float NewExtentAlongNormal =
+		FMath::Abs(FVector::DotProduct(HalfExtent, SurfaceNormal));
 
-	const float HitMeshExtentAlongNormal =
-		HitHalfExtent.ProjectOnToNormal(SurfaceNormal).Size();
+	const float HitExtentAlongNormal =
+		FMath::Abs(FVector::DotProduct(HitHalfExtent, SurfaceNormal));
 
+	//--------------------------------------
+	// 4. 计算最终位置
+	//--------------------------------------
 	const FVector CandidateLocation =
-		ClickedContext.HitResult.ImpactPoint +
-		SurfaceNormal * (NewMeshExtentAlongNormal + PlacementEpsilon);
+		ImpactPoint +
+		SurfaceNormal * (NewExtentAlongNormal + HitExtentAlongNormal + PlacementEpsilon);
 
-	// 设置最终位置和旋转
-	buildResult.FinalTransform = FTransform(FRotator::ZeroRotator, CandidateLocation);
+	//--------------------------------------
+	// 5. 计算旋转（关键升级点）
+	//--------------------------------------
+	// 让物体Z轴对齐法线
+	const FQuat AlignQuat =
+		FQuat::FindBetweenNormals(FVector::UpVector, SurfaceNormal);
 
+	//--------------------------------------
+	// 6. 最终Transform
+	//--------------------------------------
+	const FTransform CandidateTransform(AlignQuat, CandidateLocation);
+	BuildResult.FinalTransform = CandidateTransform;
+
+	//--------------------------------------
+	// 7. 碰撞检测（使用旋转后的OBB）
+	//--------------------------------------
 	FCollisionShape CollisionShape =
 		FCollisionShape::MakeBox(HalfExtent);
 
 	FCollisionQueryParams QueryParams;
 	QueryParams.bTraceComplex = false;
+
+	// 忽略点击对象
 	if (ClickedContext.HitResult.GetComponent())
 	{
 		QueryParams.AddIgnoredComponent(ClickedContext.HitResult.GetComponent());
+	}
+
+	if (ClickedContext.HitResult.GetActor())
+	{
 		QueryParams.AddIgnoredActor(ClickedContext.HitResult.GetActor());
 	}
+
+	// 忽略外部传入
 	QueryParams.AddIgnoredActors(ClickedContext.IgnoreActors);
-	for (UStaticMeshComponent* comp : ClickedContext.IgnoreStaticMeshComponent)
+
+	for (UStaticMeshComponent* Comp : ClickedContext.IgnoreStaticMeshComponent)
 	{
-		if (comp)
+		if (Comp)
 		{
-			QueryParams.AddIgnoredComponent(comp);
+			QueryParams.AddIgnoredComponent(Comp);
 		}
 	}
 
-	const bool bBlocked =
-		World->OverlapBlockingTestByChannel(
-			CandidateLocation,
-			FQuat::Identity,
-			ECC_WorldStatic,
-			CollisionShape,
-			QueryParams
-		);
+	//--------------------------------------
+	// 8. 多通道检测（重要升级）
+	//--------------------------------------
+	bool bBlocked = false;
 
+	// 静态物体
+	bBlocked |= World->OverlapBlockingTestByChannel(
+		CandidateLocation,
+		AlignQuat,
+		ECC_WorldStatic,
+		CollisionShape,
+		QueryParams
+	);
+
+	// 动态物体
+	bBlocked |= World->OverlapBlockingTestByChannel(
+		CandidateLocation,
+		AlignQuat,
+		ECC_WorldDynamic,
+		CollisionShape,
+		QueryParams
+	);
+
+	//--------------------------------------
+	// 9. 结果
+	//--------------------------------------
 	if (bBlocked)
 	{
-		buildResult.isSuccess = false;
-		return buildResult;
+		BuildResult.isSuccess = false;
+		return BuildResult;
 	}
 
-	buildResult.isSuccess = true;
-    return buildResult;
+	BuildResult.isSuccess = true;
+	return BuildResult;
 }

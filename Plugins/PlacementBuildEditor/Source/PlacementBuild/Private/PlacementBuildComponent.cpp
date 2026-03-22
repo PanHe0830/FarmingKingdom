@@ -36,7 +36,14 @@ void UPlacementBuildComponent::MouseClick(FBuildRuntimeClickedContext& context)
 {
 	if (BuildTool.IsValid())
 	{
-		BuildTool->GetRuntimeBuildResult(context);
+		FBuildRuntimeBuildResult result = BuildTool->GetRuntimeBuildResult(context);
+		if (result.isSuccess)
+		{
+			// 这里直接放在组件里了，实际可以通过事件或者接口传出去
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), result.FinalTransform, SpawnParams);
+		}
 	}
 }
 
