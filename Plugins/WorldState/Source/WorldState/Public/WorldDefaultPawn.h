@@ -6,6 +6,8 @@
 #include "GameFramework/DefaultPawn.h"
 #include "WorldDefaultPawn.generated.h"
 
+struct FBuildRuntimeClickedContext;
+
 /**
  * 
  */
@@ -19,7 +21,7 @@ class WORLDSTATE_API AWorldDefaultPawn : public ADefaultPawn
 	virtual void SetupPlayerInputComponent(UInputComponent* InInputComponent) override;
 
 public:
-	void MouseClick();
+	void MouseClick(FBuildRuntimeClickedContext& context);
 
 protected:
 	void BeginPlay() override;

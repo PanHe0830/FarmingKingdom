@@ -12,6 +12,10 @@
 struct FBuildRuntimeClickedContext
 {
 	FHitResult HitResult;
+	TArray<AActor*> IgnoreActors;
+	TArray<UStaticMeshComponent*> IgnoreStaticMeshComponent;
+	FBoxSphereBounds BuildBound;
+	bool bHit;
 };
 
 struct FBuildRuntimeBuildResult
@@ -21,4 +25,5 @@ struct FBuildRuntimeBuildResult
 		isSuccess = false;
 	}
 	bool isSuccess;
+	FTransform FinalTransform;
 };

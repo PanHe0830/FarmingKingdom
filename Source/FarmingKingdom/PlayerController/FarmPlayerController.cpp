@@ -35,9 +35,34 @@ void AFarmPlayerController::BeginPlay()
 void AFarmPlayerController::MouseClick()
 {
 	AWorldDefaultPawn* defaultPawn = Cast<AWorldDefaultPawn>(GetPawn());
+	if (defaultPawn == nullptr) return;
+	float mouseX, mouseY;
+	FHitResult HitResult;
+	if (!GetMousePosition(mouseX, mouseY)) return;
+	FVector WorldLocation;
+	FVector WorldDirection;
+	
+	DeprojectScreenPositionToWorld(mouseX, mouseY, WorldLocation, WorldDirection);
+	
+	FVector Start = WorldLocation;
+	FVector End = WorldLocation + WorldDirection * hitDistance;
+	
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(GetPawn()); // 忽略自己
+	
+	bool bHit = GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		Start,
+		End,
+		ECC_Visibility,
+		Params
+	);
+	
 	FBuildRuntimeClickedContext buildContext;
-	if (defaultPawn)
-	{
-		defaultPawn->MouseClick();
-	}
+	buildContext.HitResult;
+	buildContext.BuildBound;
+	buildContext.IgnoreActors;
+	buildContext.IgnoreStaticMeshComponent;
+	buildContext.bHit = bHit;
+	defaultPawn->MouseClick(buildContext);
 }

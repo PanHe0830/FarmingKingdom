@@ -3,6 +3,7 @@
 
 #include "WorldDefaultPawn.h"
 #include "PlacementBuildComponent.h"
+#include "PlacementResult.h"
 
 AWorldDefaultPawn::AWorldDefaultPawn()
 {
@@ -14,11 +15,11 @@ void AWorldDefaultPawn::SetupPlayerInputComponent(UInputComponent* InInputCompon
 	Super::SetupPlayerInputComponent(InInputComponent);
 }
 
-void AWorldDefaultPawn::MouseClick()
+void AWorldDefaultPawn::MouseClick(FBuildRuntimeClickedContext& context)
 {
 	if (BuildComponent)
 	{
-		BuildComponent->MouseClick();
+		BuildComponent->MouseClick(context);
 	}
 }
 

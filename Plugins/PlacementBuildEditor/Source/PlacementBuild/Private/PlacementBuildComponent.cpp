@@ -2,7 +2,7 @@
 
 
 #include "PlacementBuildComponent.h"
-#include "PlacementBuildTool.h"
+#include "PlacementResult.h"
 
 // Sets default values for this component's properties
 UPlacementBuildComponent::UPlacementBuildComponent()
@@ -12,7 +12,6 @@ UPlacementBuildComponent::UPlacementBuildComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 
 }
-
 
 // Called when the game starts
 void UPlacementBuildComponent::BeginPlay()
@@ -33,12 +32,11 @@ void UPlacementBuildComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	// ...
 }
 
-void UPlacementBuildComponent::MouseClick()
+void UPlacementBuildComponent::MouseClick(FBuildRuntimeClickedContext& context)
 {
-	FBuildRuntimeClickedContext buildContext;
 	if (BuildTool.IsValid())
 	{
-		BuildTool->GetRuntimeBuildResult(buildContext);
+		BuildTool->GetRuntimeBuildResult(context);
 	}
 }
 

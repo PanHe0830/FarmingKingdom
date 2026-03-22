@@ -22,4 +22,6 @@ protected:
 private:
 	void MouseClick();
 
+	UPROPERTY(EditAnywhere, Category = "HitSetting")
+	float hitDistance = 20000.0f;
 };

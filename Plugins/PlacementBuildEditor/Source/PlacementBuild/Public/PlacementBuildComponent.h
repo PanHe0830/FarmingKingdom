@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "PlacementBuildTool.h"
 #include "PlacementBuildComponent.generated.h"
+
+struct FBuildRuntimeClickedContext;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PLACEMENTBUILD_API UPlacementBuildComponent : public UActorComponent
@@ -24,7 +27,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	void MouseClick();
+	void MouseClick(FBuildRuntimeClickedContext& context);
 
-	TUniquePtr<class PlacementBuildTool> BuildTool;
+	TUniquePtr<PlacementBuildTool> BuildTool;
 };
