@@ -30,6 +30,7 @@ void AFarmPlayerController::SetupInputComponent()
 void AFarmPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+
 }
 
 void AFarmPlayerController::MouseClick()
