@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/HUD.h"
-#include "FarmHUD.generated.h"
+#include "UObject/Object.h"
+#include "FarmMainViewMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FARMINGKINGDOM_API AFarmHUD : public AHUD
+class FARMINGKINGDOM_API UFarmMainViewMode : public UObject
 {
 	GENERATED_BODY()
 	
