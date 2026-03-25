@@ -6,6 +6,9 @@
 #include "MVVMViewModelBase.h"
 #include "MainViewModel.generated.h"
 
+class UImage;
+class UButton;
+
 /**
  * 
  */
@@ -17,4 +20,19 @@ class FARMINGKINGDOM_API UMainViewModel : public UMVVMViewModelBase
 public:
     UPROPERTY(BlueprintReadWrite, FieldNotify)
     int32 Gold;
+
+    UPROPERTY(BlueprintReadWrite, FieldNotify)
+	FString actorName;
+
+    //UPROPERTY(BlueprintReadWrite, FieldNotify)
+    //UImage actorImage;
+
+    UPROPERTY(BlueprintReadWrite, FieldNotify)
+    UButton* actorButton;
+
+    UPROPERTY(BlueprintReadWrite, FieldNotify)
+    FLinearColor ButtonColor;
+
+    UFUNCTION(BlueprintCallable)
+    void OnButtonClicked();
 };

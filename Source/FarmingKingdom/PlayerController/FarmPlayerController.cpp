@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerInput.h"
 #include "WorldDefaultPawn.h"
 #include "PlacementResult.h"
+#include "Blueprint/UserWidget.h"
 
 void SelfBindAction()
 {
@@ -31,6 +32,14 @@ void AFarmPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//if (MainWidgetClass)
+	//{
+	//	UUserWidget* Widget = CreateWidget<UUserWidget>(this, MainWidgetClass);
+	//	if (Widget)
+	//	{
+	//		Widget->AddToViewport();
+	//	}
+	//}
 }
 
 void AFarmPlayerController::MouseClick()

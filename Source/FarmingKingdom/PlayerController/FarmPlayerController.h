@@ -24,4 +24,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "HitSetting")
 	float hitDistance = 20000.0f;
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UUserWidget> MainWidgetClass;
 };
