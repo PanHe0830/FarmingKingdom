@@ -25,21 +25,21 @@ void AFarmPlayerController::SetupInputComponent()
 
 	SelfBindAction();
 
-	InputComponent->BindAction("Farm_Mouse_Click", IE_Pressed, this, &AFarmPlayerController::MouseClick);
+	//InputComponent->BindAction("Farm_Mouse_Click", IE_Pressed, this, &AFarmPlayerController::MouseClick);
 }
 
 void AFarmPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//if (MainWidgetClass)
-	//{
-	//	UUserWidget* Widget = CreateWidget<UUserWidget>(this, MainWidgetClass);
-	//	if (Widget)
-	//	{
-	//		Widget->AddToViewport();
-	//	}
-	//}
+	if (MainWidgetClass)
+	{
+		UUserWidget* Widget = CreateWidget<UUserWidget>(this, MainWidgetClass);
+		if (Widget)
+		{
+			Widget->AddToViewport();
+		}
+	}
 }
 
 void AFarmPlayerController::MouseClick()
