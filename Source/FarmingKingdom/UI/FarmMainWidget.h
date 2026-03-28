@@ -3,20 +3,32 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "FarmUIBaseWidget.h"
 #include "FarmMainWidget.generated.h"
 
 class UButton;
+class UFarmMainViewMode;
 
 /**
  * 
  */
 UCLASS()
-class FARMINGKINGDOM_API UFarmMainWidget : public UUserWidget
+class FARMINGKINGDOM_API UFarmMainWidget : public UFarmUIBaseWidget
 {
 	GENERATED_BODY()
+
+    void OnInit() override;
+
+    void OnShow() override;
+
+    void OnHide() override;
+
+    void OnRecycle() override;
 
 public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	UButton* TextButton;
+
+    UFUNCTION(BlueprintCallable, Category = "MVVM")
+    void SetupViewModel(UFarmMainViewMode* InViewModel);
 };
