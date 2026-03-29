@@ -4,21 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include "UIConfig.h"
 #include "FarmUIManagerSubsystem.generated.h"
 
 class UFarmUIBaseWidget;
 class UFarmMainWidget;
 class UFarmMainViewMode;
-
-UENUM(BlueprintType)
-enum class EUIState : uint8
-{
-    Invalid ,
-    None ,
-    Gameplay ,
-    MainMenu ,
-    Building 
-};
 
 /**
  * 

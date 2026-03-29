@@ -22,6 +22,7 @@ protected:
 private:
 	void MouseClick();
 
+	// 测试逻辑，按下Tab键切换UI状态
 	void TabClick();
 
 	UPROPERTY(EditAnywhere, Category = "HitSetting")
