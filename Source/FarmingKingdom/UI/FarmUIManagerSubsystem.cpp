@@ -7,11 +7,36 @@
 #include "FarmMainViewMode.h"
 #include "FarmMainWidget.h"
 #include "FarmUIBaseWidget.h"
+#include "UIConfigRow.h"
 
 void UFarmUIManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
     CurrentState = EUIState::None;
+
+    if (UIConfigTable.IsNull())
+    {
+        UE_LOG(LogTemp, Error, TEXT("UIConfigTable is null (check ini config)"));
+        return;
+    }
+
+    UDataTable* Table = UIConfigTable.LoadSynchronous();
+    if (!Table)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Failed to load UIConfigTable"));
+        return;
+    }
+    TArray<FUIConfigRow*> Rows;
+    Table->GetAllRows(TEXT("UFarmUIManagerSubsystem"), Rows);
+
+    for (FUIConfigRow* Row : Rows)
+    {
+        if (!Row) continue;
+
+        UFarmUIBaseWidget* baseWidget = CreateUI(Row->UIId, Row->WidgetClass);
+
+        WidgetMap.Add(Row->UIId, baseWidget);
+    }
 }
 
 void UFarmUIManagerSubsystem::Deinitialize()
@@ -28,16 +53,16 @@ void UFarmUIManagerSubsystem::Deinitialize()
     Super::Deinitialize();
 }
 
-UFarmUIBaseWidget* UFarmUIManagerSubsystem::CreateUI(FName UIName, TSubclassOf<UFarmUIBaseWidget> WidgetClass)
+UFarmUIBaseWidget* UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftObjectPtr<UFarmUIBaseWidget> WidgetClass)
 {
     if (!WidgetClass)
     {
         return nullptr;
     }
 
-    if (TObjectPtr<UFarmUIBaseWidget>* FoundWidget = WidgetMap.Find(UIName))
+    if (UFarmUIBaseWidget* FoundWidget = *WidgetMap.Find(UIName))
     {
-        return FoundWidget->Get();
+        return FoundWidget;
     }
 
     if (UWorld* World = GetWorld())
@@ -57,30 +82,29 @@ UFarmUIBaseWidget* UFarmUIManagerSubsystem::CreateUI(FName UIName, TSubclassOf<U
 
 bool UFarmUIManagerSubsystem::ShowUI(FName UIName, int32 ZOrder)
 {
-    TObjectPtr<UFarmUIBaseWidget>* FoundWidget = WidgetMap.Find(UIName);
-    if (!FoundWidget || !::IsValid(FoundWidget->Get()))
+    UFarmUIBaseWidget* FoundWidget = *WidgetMap.Find(UIName);
+    if (!FoundWidget || !::IsValid(FoundWidget))
     {
         return false;
     }
 
-    UFarmUIBaseWidget* Widget = FoundWidget->Get();
-    if (!Widget->IsInViewport())
+    if (!FoundWidget->IsInViewport())
     {
-        Widget->AddToViewport(ZOrder);
+        FoundWidget->AddToViewport(ZOrder);
     }
-    Widget->OnShow();
+    FoundWidget->OnShow();
     return true;
 }
 
 bool UFarmUIManagerSubsystem::HideUI(FName UIName)
 {
-    TObjectPtr<UFarmUIBaseWidget>* FoundWidget = WidgetMap.Find(UIName);
-    if (!FoundWidget || !::IsValid(FoundWidget->Get()))
+    UFarmUIBaseWidget* FoundWidget = *WidgetMap.Find(UIName);
+    if (!FoundWidget || !::IsValid(FoundWidget))
     {
         return false;
     }
 
-    FoundWidget->Get()->OnHide();
+    FoundWidget->OnHide();
     return true;
 }
 

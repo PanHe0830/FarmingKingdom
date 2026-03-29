@@ -14,7 +14,7 @@ class UFarmMainViewMode;
 /**
  * 
  */
-UCLASS()
+UCLASS(Config = Game)
 class FARMINGKINGDOM_API UFarmUIManagerSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
@@ -24,7 +24,7 @@ public:
     virtual void Deinitialize() override;
 
     UFUNCTION(BlueprintCallable, Category = "UI")
-    UFarmUIBaseWidget* CreateUI(FName UIName, TSubclassOf<UFarmUIBaseWidget> WidgetClass);
+    UFarmUIBaseWidget* CreateUI(FName UIName, TSoftObjectPtr<UFarmUIBaseWidget> WidgetClass);
 
     UFUNCTION(BlueprintCallable, Category = "UI")
     bool ShowUI(FName UIName, int32 ZOrder = 0);
@@ -49,5 +49,8 @@ private:
     EUIState CurrentState;
 
     UPROPERTY(Transient)
-    TMap<FName, TObjectPtr<UFarmUIBaseWidget>> WidgetMap;
+    TMap<FName, UFarmUIBaseWidget*> WidgetMap;
+
+    UPROPERTY(Config)
+    TSoftObjectPtr<UDataTable> UIConfigTable;
 };

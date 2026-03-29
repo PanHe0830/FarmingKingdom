@@ -5,8 +5,8 @@
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
 #include "UIConfig.h"
+#include "FarmUIBaseWidget.h"
 #include "UIConfigRow.generated.h"
-
 
 USTRUCT(BlueprintType)
 struct FUIConfigRow : public FTableRowBase
@@ -20,5 +20,5 @@ struct FUIConfigRow : public FTableRowBase
     EUIState UIType;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
-    TSoftClassPtr<UUserWidget> WidgetClass;
+    TSoftClassPtr<UFarmUIBaseWidget> WidgetClass;
 };
