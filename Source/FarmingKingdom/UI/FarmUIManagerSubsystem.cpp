@@ -138,8 +138,13 @@ void UFarmUIManagerSubsystem::ExitState(EUIState OldState)
     {
     case EUIState::MainMenu:
     case EUIState::Gameplay:
+        HideUI(TEXT("Main"));
+        break;
     case EUIState::Building:
         HideUI(TEXT("Main"));
+        break;
+    case EUIState::None:
+    case EUIState::Invalid:
         break;
     default:
         break;

@@ -7,6 +7,7 @@
 #include "WorldDefaultPawn.h"
 #include "PlacementResult.h"
 #include "Blueprint/UserWidget.h"
+#include "../UI/FarmUIManagerSubsystem.h"
 
 void SelfBindAction()
 {
@@ -16,6 +17,7 @@ void SelfBindAction()
 		bIsBound = true;
 
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Farm_Mouse_Click", EKeys::LeftMouseButton));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Tab_Click", EKeys::Tab));
 	}
 }
 
@@ -26,18 +28,24 @@ void AFarmPlayerController::SetupInputComponent()
 	SelfBindAction();
 
 	//InputComponent->BindAction("Farm_Mouse_Click", IE_Pressed, this, &AFarmPlayerController::MouseClick);
+	InputComponent->BindAction("Tab_Click", IE_Pressed, this, &AFarmPlayerController::TabClick);
 }
 
 void AFarmPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (MainWidgetClass)
+	UFarmUIManagerSubsystem* uiManager = GetGameInstance()->GetSubsystem<UFarmUIManagerSubsystem>();
+	if (uiManager)
 	{
-		UUserWidget* Widget = CreateWidget<UUserWidget>(this, MainWidgetClass);
-		if (Widget)
+		if (uiManager->ChangeUIState(EUIState::MainMenu))
 		{
-			Widget->AddToViewport();
+			UE_LOG(LogTemp, Log, TEXT("UI State changed to MainMenu"));
+
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Failed to change UI State to MainMenu"));
 		}
 	}
 }
@@ -84,4 +92,18 @@ void AFarmPlayerController::MouseClick()
 	buildContext.IgnoreStaticMeshComponent;
 	buildContext.bHit = bHit;
 	defaultPawn->MouseClick(buildContext);
+}
+
+void AFarmPlayerController::TabClick()
+{
+	static bool bIsTabPressed = false;
+	if (bIsTabPressed)
+	{
+		SetShowMouseCursor(false);
+	}
+	else
+	{
+		SetShowMouseCursor(true);
+	}
+	bIsTabPressed = !bIsTabPressed;
 }

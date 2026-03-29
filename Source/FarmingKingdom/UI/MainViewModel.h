@@ -24,9 +24,6 @@ public:
     UPROPERTY(BlueprintReadWrite, FieldNotify)
 	FString actorName;
 
-    //UPROPERTY(BlueprintReadWrite, FieldNotify)
-    //UImage actorImage;
-
     UPROPERTY(BlueprintReadWrite, FieldNotify)
     UButton* actorButton;
 
