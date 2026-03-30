@@ -53,28 +53,24 @@ void UFarmUIManagerSubsystem::Deinitialize()
     Super::Deinitialize();
 }
 
-UFarmUIBaseWidget* UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftObjectPtr<UFarmUIBaseWidget> WidgetClass)
+UFarmUIBaseWidget* UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWidget> WidgetClass)
 {
-    if (!WidgetClass)
+    if (WidgetMap.Find(UIName))
     {
-        return nullptr;
+		return *WidgetMap.Find(UIName);
     }
 
-    if (UFarmUIBaseWidget* FoundWidget = *WidgetMap.Find(UIName))
-    {
-        return FoundWidget;
-    }
+    if (WidgetClass.IsValid()) return nullptr;
 
-    if (UWorld* World = GetWorld())
+    UClass* LoadedClass = WidgetClass.LoadSynchronous();
+
+    if (LoadedClass)
     {
-        UFarmUIBaseWidget* NewWidget = CreateWidget<UFarmUIBaseWidget>(World, WidgetClass);
-        if (!NewWidget)
+        UFarmUIBaseWidget* Widget = CreateWidget<UFarmUIBaseWidget>(GetWorld(), LoadedClass);
+        if (Widget)
         {
-            return nullptr;
+			return Widget;
         }
-
-        WidgetMap.Add(UIName, NewWidget);
-        return NewWidget;
     }
 
     return nullptr;

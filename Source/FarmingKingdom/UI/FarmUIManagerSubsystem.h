@@ -24,7 +24,7 @@ public:
     virtual void Deinitialize() override;
 
     UFUNCTION(BlueprintCallable, Category = "UI")
-    UFarmUIBaseWidget* CreateUI(FName UIName, TSoftObjectPtr<UFarmUIBaseWidget> WidgetClass);
+    UFarmUIBaseWidget* CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWidget> WidgetClass);
 
     UFUNCTION(BlueprintCallable, Category = "UI")
     bool ShowUI(FName UIName, int32 ZOrder = 0);
@@ -49,7 +49,7 @@ private:
     EUIState CurrentState;
 
     UPROPERTY(Transient)
-    TMap<FName, UFarmUIBaseWidget*> WidgetMap;
+    TMap<FName, TObjectPtr<UFarmUIBaseWidget>> WidgetMap;
 
     UPROPERTY(Config)
     TSoftObjectPtr<UDataTable> UIConfigTable;
