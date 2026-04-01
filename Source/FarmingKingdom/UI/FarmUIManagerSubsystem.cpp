@@ -33,9 +33,7 @@ void UFarmUIManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
     {
         if (!Row) continue;
 
-        UFarmUIBaseWidget* baseWidget = CreateUI(Row->UIId, Row->WidgetClass);
-
-        WidgetMap.Add(Row->UIId, baseWidget);
+        CreateUI(Row->UIId, Row->WidgetClass);
     }
 }
 
@@ -55,20 +53,21 @@ void UFarmUIManagerSubsystem::Deinitialize()
 
 UFarmUIBaseWidget* UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWidget> WidgetClass)
 {
-    if (WidgetMap.Find(UIName))
+    if (auto* FoundPtr = WidgetMap.Find(UIName))
     {
-		return *WidgetMap.Find(UIName);
+        return FoundPtr->Get();
     }
 
-    if (WidgetClass.IsValid()) return nullptr;
+    if (!WidgetClass.IsValid()) return nullptr;
 
     UClass* LoadedClass = WidgetClass.LoadSynchronous();
-
-    if (LoadedClass)
+	UWorld* world = GetWorld();
+    if (LoadedClass && world)
     {
-        UFarmUIBaseWidget* Widget = CreateWidget<UFarmUIBaseWidget>(GetWorld(), LoadedClass);
+        UFarmUIBaseWidget* Widget = CreateWidget<UFarmUIBaseWidget>(world, LoadedClass);
         if (Widget)
         {
+            WidgetMap.Add(UIName, Widget);
 			return Widget;
         }
     }
