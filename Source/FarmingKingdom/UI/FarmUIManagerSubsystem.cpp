@@ -8,11 +8,13 @@
 #include "FarmMainWidget.h"
 #include "FarmUIBaseWidget.h"
 #include "UIConfigRow.h"
+#include "Engine/World.h"
 
 void UFarmUIManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
     CurrentState = EUIState::None;
+    FWorldDelegates::OnPostWorldInitialization.AddUObject(this, &UFarmUIManagerSubsystem::OnWorldBeginPlay);
 
     if (UIConfigTable.IsNull())
     {
@@ -168,5 +170,12 @@ void UFarmUIManagerSubsystem::ExitState(EUIState OldState)
     default:
         break;
     }
+}
+
+void UFarmUIManagerSubsystem::OnWorldBeginPlay(UWorld* World, const UWorld::InitializationValues Values)
+{
+    if (!World || !World->IsGameWorld()) return;
+
+    // TODO 切换关卡了重新创建UI
 }
 

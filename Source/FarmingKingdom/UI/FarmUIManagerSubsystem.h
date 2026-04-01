@@ -45,6 +45,8 @@ private:
     bool EnterState(EUIState NewState);
     void ExitState(EUIState OldState);
 
+    void OnWorldBeginPlay(UWorld* World, const UWorld::InitializationValues Values);
+
     UPROPERTY(Transient)
     EUIState CurrentState;
 
