@@ -35,7 +35,7 @@ void UFarmUIManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
     {
         if (!Row) continue;
 
-        CreateUI(Row->UIId, Row->WidgetClass);
+		UIClassMap.Add(Row->UIId, Row->WidgetClass);
     }
 }
 
@@ -176,6 +176,9 @@ void UFarmUIManagerSubsystem::OnWorldBeginPlay(UWorld* World, const UWorld::Init
 {
     if (!World || !World->IsGameWorld()) return;
 
+    if (UIClassMap.Num() <= 0) return;
     // TODO 切换关卡了重新创建UI
+
+    
 }
 

@@ -55,4 +55,7 @@ private:
 
     UPROPERTY(Config)
     TSoftObjectPtr<UDataTable> UIConfigTable;
+
+    UPROPERTY()
+	TMap<FName, TSoftClassPtr<UFarmUIBaseWidget>> UIClassMap;
 };
