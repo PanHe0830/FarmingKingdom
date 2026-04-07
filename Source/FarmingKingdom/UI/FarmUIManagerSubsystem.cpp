@@ -76,7 +76,7 @@ void UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWi
         return;
     }
 
-    if (!WidgetClass.IsValid())
+    if (WidgetClass.IsNull())
     {
 		UE_LOG(LogTemp, Warning, TEXT("WidgetClass for UI %s is not valid"), *UIName.ToString());
         return;

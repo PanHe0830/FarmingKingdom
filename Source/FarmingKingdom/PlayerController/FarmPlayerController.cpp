@@ -35,19 +35,19 @@ void AFarmPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UFarmUIManagerSubsystem* uiManager = GetGameInstance()->GetSubsystem<UFarmUIManagerSubsystem>();
-	if (uiManager)
-	{
-		if (uiManager->ChangeUIState(EUIState::MainMenu))
-		{
-			UE_LOG(LogTemp, Log, TEXT("UI State changed to MainMenu"));
-
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Failed to change UI State to MainMenu"));
-		}
-	}
+	//UFarmUIManagerSubsystem* uiManager = GetGameInstance()->GetSubsystem<UFarmUIManagerSubsystem>();
+	//if (uiManager)
+	//{
+	//	if (uiManager->ChangeUIState(EUIState::MainMenu))
+	//	{
+	//		UE_LOG(LogTemp, Log, TEXT("UI State changed to MainMenu"));
+	//
+	//	}
+	//	else
+	//	{
+	//		UE_LOG(LogTemp, Warning, TEXT("Failed to change UI State to MainMenu"));
+	//	}
+	//}
 }
 
 void AFarmPlayerController::MouseClick()
