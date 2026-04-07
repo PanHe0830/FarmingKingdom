@@ -41,6 +41,8 @@ void UFarmUIManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 void UFarmUIManagerSubsystem::Deinitialize()
 {
+    UIClassMap.Empty();
+    
     TArray<FName> Keys;
     WidgetMap.GetKeys(Keys);
     for (const FName& UIName : Keys)
