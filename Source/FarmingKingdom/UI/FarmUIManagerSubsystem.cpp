@@ -14,6 +14,12 @@ void UFarmUIManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
     CurrentState = EUIState::None;
+    LoadUIConfig();
+    InitAllUI();
+}
+
+void UFarmUIManagerSubsystem::LoadUIConfig()
+{
     FWorldDelegates::OnPostWorldInitialization.AddUObject(this, &UFarmUIManagerSubsystem::OnWorldBeginPlay);
 
     if (UIConfigTable.IsNull())
@@ -35,8 +41,16 @@ void UFarmUIManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
     {
         if (!Row) continue;
 
-		UIClassMap.Add(Row->UIId, Row->WidgetClass);
+        UIClassMap.Add(Row->UIId, Row->WidgetClass);
     }
+}
+
+void UFarmUIManagerSubsystem::InitAllUI()
+{
+    for (const auto& Pair : UIClassMap)
+    {
+        CreateUI(Pair.Key, Pair.Value);
+	}
 }
 
 void UFarmUIManagerSubsystem::Deinitialize()
@@ -55,14 +69,19 @@ void UFarmUIManagerSubsystem::Deinitialize()
     Super::Deinitialize();
 }
 
-UFarmUIBaseWidget* UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWidget> WidgetClass)
+void UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWidget> WidgetClass)
 {
     if (auto* FoundPtr = WidgetMap.Find(UIName))
     {
-        return FoundPtr->Get();
+        return;
     }
 
-    if (!WidgetClass.IsValid()) return nullptr;
+    if (!WidgetClass.IsValid())
+    {
+		UE_LOG(LogTemp, Warning, TEXT("WidgetClass for UI %s is not valid"), *UIName.ToString());
+        return;
+    }
+
 
     UClass* LoadedClass = WidgetClass.LoadSynchronous();
 	UWorld* world = GetWorld();
@@ -72,11 +91,15 @@ UFarmUIBaseWidget* UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr
         if (Widget)
         {
             WidgetMap.Add(UIName, Widget);
-			return Widget;
+			return;
+        }
+        else
+        {
+            UE_LOG(LogTemp,Warning , TEXT("CreateWidget get widget is null"));
         }
     }
 
-    return nullptr;
+    return;
 }
 
 bool UFarmUIManagerSubsystem::ShowUI(FName UIName, int32 ZOrder)

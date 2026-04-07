@@ -21,10 +21,15 @@ class FARMINGKINGDOM_API UFarmUIManagerSubsystem : public UGameInstanceSubsystem
 
 public:
     virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+private:
+    void LoadUIConfig();
+    void InitAllUI();
+
+public:
     virtual void Deinitialize() override;
 
     UFUNCTION(BlueprintCallable, Category = "UI")
-    UFarmUIBaseWidget* CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWidget> WidgetClass);
+    void CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWidget> WidgetClass);
 
     UFUNCTION(BlueprintCallable, Category = "UI")
     bool ShowUI(FName UIName, int32 ZOrder = 0);
