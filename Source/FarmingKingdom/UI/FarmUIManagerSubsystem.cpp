@@ -204,6 +204,23 @@ void UFarmUIManagerSubsystem::OnWorldBeginPlay(UWorld* World, const UWorld::Init
     if (UIClassMap.Num() <= 0) return;
     // TODO 切换关卡了重新创建UI
 
-    
+    // 先清理UI
+    for (auto& Elem : WidgetMap)
+    {
+        if (Elem.Value)
+        {
+            Elem.Value->RemoveFromParent();
+        }
+    }
+    WidgetMap.Empty();
+
+    // 重新创建UI
+    for (auto& Elem : UIClassMap)
+    {
+        CreateUI(Elem.Key, Elem.Value);
+    }
+
+    // 进入到最后的UI状态
+    EnterState(CurrentState);
 }
 
