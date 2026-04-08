@@ -9,7 +9,7 @@
 #include "FarmUIBaseWidget.h"
 #include "UIConfigRow.h"
 #include "Engine/World.h"
-
+PRAGMA_DISABLE_OPTIMIZATION
 void UFarmUIManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
@@ -104,17 +104,24 @@ void UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWi
 
 bool UFarmUIManagerSubsystem::ShowUI(FName UIName, int32 ZOrder)
 {
-    UFarmUIBaseWidget* FoundWidget = *WidgetMap.Find(UIName);
-    if (!FoundWidget || !::IsValid(FoundWidget))
+    auto* FoundWidget = WidgetMap.Find(UIName);
+    if (FoundWidget != nullptr)
     {
-        return false;
+        UFarmUIBaseWidget* widget = FoundWidget->Get();
+        if (widget != nullptr)
+        {
+			widget->AddToViewport(ZOrder);
+        }
+        else
+        {
+			return false;
+        }
     }
-
-    if (!FoundWidget->IsInViewport())
+    else
     {
-        FoundWidget->AddToViewport(ZOrder);
+		return false;
     }
-    FoundWidget->OnShow();
+    
     return true;
 }
 
@@ -161,7 +168,7 @@ bool UFarmUIManagerSubsystem::EnterState(EUIState NewState)
         return true;
     case EUIState::MainMenu:
     {
-        return ShowUI(TEXT("Main"), 0);
+        return ShowUI(TEXT("MainWidget"), 0);
     }
     case EUIState::Gameplay:
     {
@@ -224,3 +231,5 @@ void UFarmUIManagerSubsystem::OnWorldBeginPlay(UWorld* World, const UWorld::Init
     EnterState(CurrentState);
 }
 
+
+PRAGMA_ENABLE_OPTIMIZATION
