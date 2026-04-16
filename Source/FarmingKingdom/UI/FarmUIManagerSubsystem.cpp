@@ -167,16 +167,8 @@ bool UFarmUIManagerSubsystem::EnterState(EUIState NewState)
     case EUIState::None:
         return true;
     case EUIState::MainMenu:
-    {
+    { 
         return ShowUI(TEXT("MainWidget"), 0);
-    }
-    case EUIState::Gameplay:
-    {
-        return HideUI(TEXT("Main"));
-    }
-    case EUIState::Building:
-    {
-        return ShowUI(TEXT("Main"), 0);
     }
     default:
         break;

@@ -26,8 +26,8 @@ class FARMINGKINGDOM_API UFarmMainWidget : public UFarmUIBaseWidget
     void OnRecycle() override;
 
 public:
-	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	UButton* TextButton;
+	//UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	//UButton* TextButton;
 
     UFUNCTION(BlueprintCallable, Category = "MVVM")
     void SetupViewModel(UFarmMainViewMode* InViewModel);
