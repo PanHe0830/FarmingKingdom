@@ -13,6 +13,7 @@ Saved/
 *.VC.VC.opendb
 .vs
 .vsconfig
+.github
 
 # Mac
 *.DS_Store
