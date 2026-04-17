@@ -46,6 +46,9 @@ public:
     UFUNCTION(BlueprintPure, Category = "UI")
     EUIState GetCurrentUIState() const { return CurrentState; }
 
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	UMVVMViewModelBase* GetViewModel(FName UIName , FName UIUIName) const;
+
 private:
     bool EnterState(EUIState NewState);
     void ExitState(EUIState OldState);

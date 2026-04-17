@@ -160,6 +160,17 @@ bool UFarmUIManagerSubsystem::ChangeUIState(EUIState NewState)
     return true;
 }
 
+UMVVMViewModelBase* UFarmUIManagerSubsystem::GetViewModel(FName UIName, FName UIUIName) const
+{
+    auto Widget = WidgetMap.Find(UIName);
+    if (Widget)
+    {
+		//Widget->GetViewModelByUIName(UIUIName);
+    }
+
+    return nullptr;
+}
+
 bool UFarmUIManagerSubsystem::EnterState(EUIState NewState)
 {
     switch (NewState)
