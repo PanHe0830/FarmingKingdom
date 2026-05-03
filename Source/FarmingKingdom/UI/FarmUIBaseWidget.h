@@ -26,7 +26,7 @@ public:
 
 	TSubclassOf<UFarmUIBaseModel> GetWidgetModelClass() const { return WidgetClass; }
 
-private:
+protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<UFarmUIBaseModel> WidgetClass;
 

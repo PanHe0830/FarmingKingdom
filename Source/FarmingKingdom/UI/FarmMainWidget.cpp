@@ -28,4 +28,22 @@ void UFarmMainWidget::OnRecycle()
 	Super::OnRecycle();
 }
 
+void UFarmMainWidget::BindWidgetModel(UFarmUIBaseModel* InWidgetModel)
+{
+	Super::BindWidgetModel(InWidgetModel);
+	if (WidgetModel != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("FarmMainWidget bind widget model"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("FarmMainWidget bind widget model is null"));
+	}
+}
+
+void UFarmMainWidget::UnBindWidgetModel()
+{
+	Super::UnBindWidgetModel();
+}
+
 //PRAGMA_ENABLE_OPTIMIZATION

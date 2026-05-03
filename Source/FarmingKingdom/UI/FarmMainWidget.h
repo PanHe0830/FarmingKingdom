@@ -26,7 +26,14 @@ class FARMINGKINGDOM_API UFarmMainWidget : public UFarmUIBaseWidget
 
     void OnRecycle() override;
 
+    void BindWidgetModel(UFarmUIBaseModel* InWidgetModel) override;
+
+    void UnBindWidgetModel() override;
+
 public:
     UPROPERTY(meta = (BindWidget))
-    UHorizontalBox* HorizontalBox;
+    UHorizontalBox* HorizontalBox_Top;
+
+    UPROPERTY(meta = (BindWidget))
+    UHorizontalBox* HorizontalBox_Under;
 };
