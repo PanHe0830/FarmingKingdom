@@ -2,20 +2,20 @@
 
 
 #include "FarmUIManagerSubsystem.h"
+#include "FarmUIBaseModel.h"
 
 #include "Blueprint/UserWidget.h"
-#include "FarmMainViewMode.h"
 #include "FarmMainWidget.h"
 #include "FarmUIBaseWidget.h"
 #include "UIConfigRow.h"
 #include "Engine/World.h"
-PRAGMA_DISABLE_OPTIMIZATION
+
 void UFarmUIManagerSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
     Super::Initialize(Collection);
     CurrentState = EUIState::None;
+
     LoadUIConfig();
-    InitAllUI();
 }
 
 void UFarmUIManagerSubsystem::LoadUIConfig()
@@ -42,6 +42,7 @@ void UFarmUIManagerSubsystem::LoadUIConfig()
         if (!Row) continue;
 
         UIClassMap.Add(Row->UIId, Row->WidgetClass);
+		UIModelMap.Add(Row->UIId, Row->ViewModelClass);
     }
 }
 
@@ -56,13 +57,26 @@ void UFarmUIManagerSubsystem::InitAllUI()
 void UFarmUIManagerSubsystem::Deinitialize()
 {
     UIClassMap.Empty();
-    
-    TArray<FName> Keys;
-    WidgetMap.GetKeys(Keys);
-    for (const FName& UIName : Keys)
+
+    for (auto& item : UIModelMap)
     {
-        RecycleUI(UIName);
+        if (item.Value)
+        {
+            item.Value = nullptr;
+        }
     }
+    UIModelMap.Empty();
+    
+    for (auto& Elem : WidgetMap)
+    {
+        if (Elem.Value)
+        {
+            Elem.Value->UnBindWidgetModel();
+            Elem.Value->RemoveFromParent();
+			Elem.Value = nullptr;
+        }
+	}
+    WidgetMap.Empty();
 
     CurrentState = EUIState::Invalid;
 
@@ -81,15 +95,22 @@ void UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWi
 		UE_LOG(LogTemp, Warning, TEXT("WidgetClass for UI %s is not valid"), *UIName.ToString());
         return;
     }
-
-
+    if (!UIModelMap[UIName])
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Model for UI %s is not valid"), *UIName.ToString());
+		return;
+    }
+    UClass* ModelClass = UIModelMap[UIName].Get();
     UClass* LoadedClass = WidgetClass.LoadSynchronous();
 	UWorld* world = GetWorld();
-    if (LoadedClass && world)
+    if (LoadedClass && world && ModelClass)
     {
         UFarmUIBaseWidget* Widget = CreateWidget<UFarmUIBaseWidget>(world, LoadedClass);
-        if (Widget)
+		UFarmUIBaseModel* Model = NewObject<UFarmUIBaseModel>(this, ModelClass);
+        if (Widget && Model)
         {
+			Widget->OnInit();
+            Widget->BindWidgetModel(Model);
             WidgetMap.Add(UIName, Widget);
 			return;
         }
@@ -110,7 +131,7 @@ bool UFarmUIManagerSubsystem::ShowUI(FName UIName, int32 ZOrder)
         UFarmUIBaseWidget* widget = FoundWidget->Get();
         if (widget != nullptr)
         {
-			widget->AddToViewport(ZOrder);
+			widget->OnShow();
         }
         else
         {
@@ -139,7 +160,6 @@ bool UFarmUIManagerSubsystem::HideUI(FName UIName)
 
 bool UFarmUIManagerSubsystem::RecycleUI(FName UIName)
 {
-
     return true;
 }
 
@@ -158,17 +178,6 @@ bool UFarmUIManagerSubsystem::ChangeUIState(EUIState NewState)
 
     CurrentState = NewState;
     return true;
-}
-
-UMVVMViewModelBase* UFarmUIManagerSubsystem::GetViewModel(FName UIName, FName UIUIName) const
-{
-    auto Widget = WidgetMap.Find(UIName);
-    if (Widget)
-    {
-		//Widget->GetViewModelByUIName(UIUIName);
-    }
-
-    return nullptr;
 }
 
 bool UFarmUIManagerSubsystem::EnterState(EUIState NewState)
@@ -230,9 +239,7 @@ void UFarmUIManagerSubsystem::OnWorldBeginPlay(UWorld* World, const UWorld::Init
         CreateUI(Elem.Key, Elem.Value);
     }
 
+	//UE_LOG(LogTemp, Warning, TEXT("UI Manager Subsystem: World Begin Play, UI reloaded"));
     // 进入到最后的UI状态
     EnterState(CurrentState);
 }
-
-
-PRAGMA_ENABLE_OPTIMIZATION

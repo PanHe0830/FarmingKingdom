@@ -21,4 +21,7 @@ struct FUIConfigRow : public FTableRowBase
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly)
     TSoftClassPtr<UFarmUIBaseWidget> WidgetClass;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TSubclassOf<UFarmUIBaseModel> ViewModelClass;
 };

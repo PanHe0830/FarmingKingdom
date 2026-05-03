@@ -1,23 +1,31 @@
 #include "FarmUIBaseWidget.h"
-#include "FarmMainViewMode.h"
 
 void UFarmUIBaseWidget::OnInit()
 {
+
 }
 
 void UFarmUIBaseWidget::OnShow()
 {
+	IsInViewport() ? SetVisibility(ESlateVisibility::Visible) : AddToViewport(0);
 }
 
 void UFarmUIBaseWidget::OnHide()
 {
+	SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UFarmUIBaseWidget::OnRecycle()
 {
-	if (currentViewModel.Get() != nullptr)
-	{
-		currentViewModel->ConditionalBeginDestroy();
-		currentViewModel = nullptr;
-	}
+	RemoveFromParent();
+}
+
+void UFarmUIBaseWidget::BindWidgetModel(UFarmUIBaseModel* InWidgetModel)
+{
+	WidgetModel = InWidgetModel;
+}
+
+void UFarmUIBaseWidget::UnBindWidgetModel()
+{
+	WidgetModel = nullptr;
 }

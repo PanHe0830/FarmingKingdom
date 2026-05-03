@@ -4,7 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "FarmUIBaseWidget.generated.h"
 
-class UMVVMViewModelBase;
+class UFarmUIBaseModel;
 
 UCLASS(Abstract, Blueprintable)
 class FARMINGKINGDOM_API UFarmUIBaseWidget : public UUserWidget
@@ -19,7 +19,17 @@ public:
     virtual void OnHide();
 
     virtual void OnRecycle();
-protected:
-    UPROPERTY(BlueprintReadOnly, Category = "MVVM")
-    TObjectPtr<UMVVMViewModelBase> currentViewModel;
+
+	virtual void BindWidgetModel(UFarmUIBaseModel* InWidgetModel);
+
+	virtual void UnBindWidgetModel();
+
+	TSubclassOf<UFarmUIBaseModel> GetWidgetModelClass() const { return WidgetClass; }
+
+private:
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UFarmUIBaseModel> WidgetClass;
+
+    UPROPERTY()
+	UFarmUIBaseModel* WidgetModel;
 };

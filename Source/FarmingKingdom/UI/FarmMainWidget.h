@@ -8,6 +8,7 @@
 
 class UButton;
 class UFarmMainViewMode;
+class UHorizontalBox;
 
 /**
  * 
@@ -26,9 +27,6 @@ class FARMINGKINGDOM_API UFarmMainWidget : public UFarmUIBaseWidget
     void OnRecycle() override;
 
 public:
-	//UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
-	//UButton* TextButton;
-
-    UFUNCTION(BlueprintCallable, Category = "MVVM")
-    void SetupViewModel(UFarmMainViewMode* InViewModel);
+    UPROPERTY(meta = (BindWidget))
+    UHorizontalBox* HorizontalBox;
 };

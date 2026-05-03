@@ -10,6 +10,7 @@
 class UFarmUIBaseWidget;
 class UFarmMainWidget;
 class UFarmMainViewMode;
+class UFarmUIBaseModel;
 
 /**
  * 
@@ -46,9 +47,6 @@ public:
     UFUNCTION(BlueprintPure, Category = "UI")
     EUIState GetCurrentUIState() const { return CurrentState; }
 
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	UMVVMViewModelBase* GetViewModel(FName UIName , FName UIUIName) const;
-
 private:
     bool EnterState(EUIState NewState);
     void ExitState(EUIState OldState);
@@ -66,4 +64,7 @@ private:
 
     UPROPERTY()
 	TMap<FName, TSoftClassPtr<UFarmUIBaseWidget>> UIClassMap;
+
+    UPROPERTY()
+	TMap<FName, TSubclassOf<UFarmUIBaseModel>> UIModelMap;
 };

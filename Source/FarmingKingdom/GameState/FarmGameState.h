@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FarmUIBaseWidget.h"
-#include "MaterialShowWidget.generated.h"
+#include "GameFramework/GameState.h"
+#include "FarmGameState.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FARMINGKINGDOM_API UMaterialShowWidget : public UFarmUIBaseWidget
+class FARMINGKINGDOM_API AFarmGameState : public AGameState
 {
 	GENERATED_BODY()
 	

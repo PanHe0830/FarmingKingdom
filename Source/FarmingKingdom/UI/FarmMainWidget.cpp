@@ -2,7 +2,11 @@
 
 
 #include "FarmMainWidget.h"
-#include "FarmMainViewMode.h"
+
+#include "Components/HorizontalBox.h"
+#include "Components/HorizontalBoxSlot.h"
+
+//PRAGMA_DISABLE_OPTIMIZATION
 
 void UFarmMainWidget::OnInit()
 {
@@ -24,7 +28,4 @@ void UFarmMainWidget::OnRecycle()
 	Super::OnRecycle();
 }
 
-void UFarmMainWidget::SetupViewModel(UFarmMainViewMode* InViewModel)
-{
-    currentViewModel = InViewModel;
-}
+//PRAGMA_ENABLE_OPTIMIZATION
