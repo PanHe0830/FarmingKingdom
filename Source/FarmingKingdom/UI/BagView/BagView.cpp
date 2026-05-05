@@ -3,9 +3,13 @@
 
 #include "BagView.h"
 
+#include <Components/TileView.h>
+
 void UBagView::OnInit()
 {
 	Super::OnInit();
+
+	InitBagItemView();
 }
 
 void UBagView::OnShow()
@@ -31,4 +35,9 @@ void UBagView::BindWidgetModel(UFarmUIBaseModel* InWidgetModel)
 void UBagView::UnBindWidgetModel()
 {
 	Super::UnBindWidgetModel();
+}
+
+void UBagView::InitBagItemView()
+{
+	//UTileView
 }

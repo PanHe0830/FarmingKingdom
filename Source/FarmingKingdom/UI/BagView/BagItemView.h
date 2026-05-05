@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "../FarmUIBaseWidget.h"
+#include "Blueprint/IUserObjectListEntry.h"
 #include "BagItemView.generated.h"
 
 class UImage;
@@ -13,11 +14,13 @@ class UTextBlock;
  * 
  */
 UCLASS()
-class FARMINGKINGDOM_API UBagItemView : public UFarmUIBaseWidget
+class FARMINGKINGDOM_API UBagItemView : public UFarmUIBaseWidget , public IUserObjectListEntry
 {
 	GENERATED_BODY()
 	
 public:
+	void NativeOnListItemObjectSet(UObject* ListItemObject) override;
+
 	UFUNCTION(BlueprintCallable, Category = "BagItemView")
 	void SetItemImage(UTexture2D* Image);
 

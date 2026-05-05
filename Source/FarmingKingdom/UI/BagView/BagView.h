@@ -4,7 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "../FarmUIBaseWidget.h"
+#include "GameplayTagContainer.h"
 #include "BagView.generated.h"
+
+class UBagItemView;
+class UTileView;
 
 /**
  * 
@@ -25,4 +29,14 @@ public:
 	void BindWidgetModel(UFarmUIBaseModel* InWidgetModel) override;
 
 	void UnBindWidgetModel() override;
+
+private:
+	void InitBagItemView();
+
+	UPROPERTY()
+	TMap<FGameplayTag , UBagItemView*> WidgetModelMap;
+
+public:
+	UPROPERTY(meta = (BindWidget))
+	UTileView* TileView;
 };
