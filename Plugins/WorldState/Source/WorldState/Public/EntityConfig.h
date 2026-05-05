@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include <GameplayTagContainer.h>
 #include "EntityConfig.generated.h"
 
 class UCurveFloat;
+class UTexture2D;
 
 /**
  * 
@@ -25,4 +27,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Entity")
 	bool bLoop = false;
+
+	UPROPERTY(EditAnywhere, Category = "Entity")
+	FGameplayTag EntityTag;
 };
