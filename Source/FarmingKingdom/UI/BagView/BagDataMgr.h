@@ -7,18 +7,6 @@
 #include "GameplayTagContainer.h"
 #include "BagDataMgr.generated.h"
 
-USTRUCT()
-struct FItemStack
-{
-	GENERATED_BODY()
-
-	UPROPERTY()
-	FGameplayTag ItemTag;
-
-	UPROPERTY()
-	int32 Count;
-};
-
 /**
  * 
  */
