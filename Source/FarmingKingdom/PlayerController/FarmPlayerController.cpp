@@ -116,11 +116,18 @@ void AFarmPlayerController::TabClick()
 	static bool bIsTabPressed = false;
 	if (bIsTabPressed)
 	{
+		FInputModeGameOnly InputMode;
+		SetInputMode(InputMode);
 		SetShowMouseCursor(false);
 	}
 	else
 	{
+		FInputModeGameAndUI InputMode;
+		SetInputMode(InputMode);
 		SetShowMouseCursor(true);
 	}
 	bIsTabPressed = !bIsTabPressed;
+
+	//FInputModeUIOnly  FInputModeGameOnly  FInputModeGameAndUI
+	
 }

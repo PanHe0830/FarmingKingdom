@@ -85,42 +85,39 @@ void UFarmUIManagerSubsystem::Deinitialize()
 
 void UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWidget> WidgetClass)
 {
-    if (auto* FoundPtr = WidgetMap.Find(UIName))
+    if (WidgetMap.Contains(UIName))
     {
         return;
     }
 
     if (WidgetClass.IsNull())
     {
-		UE_LOG(LogTemp, Warning, TEXT("WidgetClass for UI %s is not valid"), *UIName.ToString());
+        UE_LOG(LogTemp, Warning, TEXT("WidgetClass for UI %s is not valid"), *UIName.ToString());
         return;
     }
-    if (!UIModelMap[UIName])
+
+    UClass* FoundModelClass = UIModelMap.Find(UIName)->Get();
+    if (!FoundModelClass || !FoundModelClass)
     {
         UE_LOG(LogTemp, Warning, TEXT("Model for UI %s is not valid"), *UIName.ToString());
-		return;
-    }
-    UClass* ModelClass = UIModelMap[UIName].Get();
-    UClass* LoadedClass = WidgetClass.LoadSynchronous();
-	UWorld* world = GetWorld();
-    if (LoadedClass && world && ModelClass)
-    {
-        UFarmUIBaseWidget* Widget = CreateWidget<UFarmUIBaseWidget>(world, LoadedClass);
-		UFarmUIBaseModel* Model = NewObject<UFarmUIBaseModel>(this, ModelClass);
-        if (Widget && Model)
-        {
-			Widget->OnInit();
-            Widget->BindWidgetModel(Model);
-            WidgetMap.Add(UIName, Widget);
-			return;
-        }
-        else
-        {
-            UE_LOG(LogTemp,Warning , TEXT("CreateWidget get widget is null"));
-        }
+        return;
     }
 
-    return;
+    UClass* LoadedClass = WidgetClass.LoadSynchronous();
+
+    UWorld* World = GetWorld();
+
+    if (!World || !LoadedClass)
+        return;
+
+    UFarmUIBaseWidget* Widget = CreateWidget<UFarmUIBaseWidget>(World, LoadedClass);
+    UFarmUIBaseModel* Model = NewObject<UFarmUIBaseModel>(GetGameInstance(), FoundModelClass);
+
+    if (Widget && Model)
+    {
+        Widget->BindWidgetModel(Model);
+        WidgetMap.Add(UIName, Widget);
+    }
 }
 
 bool UFarmUIManagerSubsystem::ShowUI(FName UIName, int32 ZOrder)

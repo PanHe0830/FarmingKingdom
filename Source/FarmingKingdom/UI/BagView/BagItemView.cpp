@@ -7,11 +7,33 @@
 #include <Components/TextBlock.h>
 #include <Components/Image.h>
 
+void UBagItemView::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	SetCursor(EMouseCursor::Hand);
+}
+
+void UBagItemView::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+	SetCursor(EMouseCursor::Default);
+}
+
+//FReply UBagItemView::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+//{
+//	if (ItemData)
+//	{
+//		OnItemDataClicked.Broadcast(ItemData);
+//	}
+//
+//	return FReply::Handled();
+//}
+
 void UBagItemView::NativeOnListItemObjectSet(UObject* ListItemObject)
 {
 	//IUserObjectListEntry::NativeOnListItemObjectSet(ListItemObject);
 
-	UBagItemData* ItemData = Cast<UBagItemData>(ListItemObject);
+	ItemData = Cast<UBagItemData>(ListItemObject);
 	if (ItemData)
 	{
 		SetItemImage(ItemData->Icon);
@@ -32,6 +54,12 @@ void UBagItemView::SetItemImage(UTexture2D* Image)
 
 void UBagItemView::SetItemText(const FText& Text)
 {
-	if (Text.IsEmpty()) return;
-	ItemTextBlock->SetText(Text);
+	if (Text.IsEmpty())
+	{
+		ItemTextBlock->SetText(FText::GetEmpty());
+	}
+	else
+	{
+		ItemTextBlock->SetText(Text);
+	}
 }

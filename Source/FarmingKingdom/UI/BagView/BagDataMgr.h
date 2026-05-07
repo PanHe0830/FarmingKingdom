@@ -24,6 +24,11 @@ private:
 public:
 	void SaveBagData();
 
+	void GetRunTimeBagData(TMap<FGameplayTag, int32>& OutBagData) const
+	{
+		OutBagData = RunTimeBagData;
+	}
+
 private:
 	UPROPERTY()
 	TMap<FGameplayTag, int32> RunTimeBagData;

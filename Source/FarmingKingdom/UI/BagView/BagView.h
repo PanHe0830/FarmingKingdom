@@ -9,6 +9,7 @@
 
 class UBagItemView;
 class UTileView;
+class UBagViewModel;
 
 /**
  * 
@@ -33,6 +34,9 @@ public:
 private:
 	void InitBagItemView();
 
+	UFUNCTION()
+	void HandleItemClicked(UObject* item);
+
 	UPROPERTY()
 	TMap<FGameplayTag , UBagItemView*> WidgetModelMap;
 
@@ -42,4 +46,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BagView", meta = (ToolTip = "The number of slots in the bag", DisplayName = "BagSlotCount"))
 	int32 BagSlotCount = 1200;
+
+	UPROPERTY()
+	UBagViewModel* BagViewModel;
 };

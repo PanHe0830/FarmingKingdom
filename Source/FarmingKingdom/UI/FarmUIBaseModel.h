@@ -14,6 +14,21 @@ class FARMINGKINGDOM_API UFarmUIBaseModel : public UObject
 {
 	GENERATED_BODY()
 	
+protected:
+	void PostInitProperties() override;
+
 public:
 	void ClearData();
+
+	UGameInstance* GetGameInstance() const;
+
+	template<typename T>
+	T* GetGameInstanceSubsystem() const
+	{
+		if (UGameInstance* GI = GetGameInstance())
+		{
+			return GI->GetSubsystem<T>();
+		}
+		return nullptr;
+	}
 };

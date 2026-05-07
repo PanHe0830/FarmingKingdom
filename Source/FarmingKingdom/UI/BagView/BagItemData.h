@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
+#include <GameplayTagContainer.h>
 #include "BagItemData.generated.h"
 
 /**
@@ -20,4 +21,7 @@ public:
 
     UPROPERTY(BlueprintReadWrite)
     FText ItemText;
+
+	UPROPERTY(BlueprintReadWrite)
+	FGameplayTag ItemTag;
 };

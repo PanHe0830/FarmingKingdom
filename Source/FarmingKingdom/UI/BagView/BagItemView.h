@@ -9,6 +9,7 @@
 
 class UImage;
 class UTextBlock;
+class UBagItemData;
 
 /**
  * 
@@ -18,6 +19,11 @@ class FARMINGKINGDOM_API UBagItemView : public UFarmUIBaseWidget , public IUserO
 {
 	GENERATED_BODY()
 	
+protected:
+	void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+	//FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
 public:
 	void NativeOnListItemObjectSet(UObject* ListItemObject) override;
 
@@ -32,4 +38,10 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* ItemTextBlock;
+
+	UPROPERTY()
+	TObjectPtr<UBagItemData> ItemData;
+
+	//DECLARE_MULTICAST_DELEGATE_OneParam(FOnItemClicked, UBagItemData*);
+	//FOnItemClicked OnItemDataClicked;
 };

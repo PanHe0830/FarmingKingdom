@@ -8,7 +8,8 @@ public class FarmingKingdom : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "PlacementBuild", "UMG" /**"ModelViewViewModel" **/ , "GameplayTags" , "WorldState"});
+		PublicDependencyModuleNames.AddRange(new string[] 
+		{ "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "PlacementBuild", "UMG" /**"ModelViewViewModel" **/ , "GameplayTags" , "WorldState" , "SlateCore" , "Slate"});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
