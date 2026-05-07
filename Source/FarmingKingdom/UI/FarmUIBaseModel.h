@@ -18,6 +18,8 @@ protected:
 	void PostInitProperties() override;
 
 public:
+	virtual void InitData();
+
 	void ClearData();
 
 	UGameInstance* GetGameInstance() const;

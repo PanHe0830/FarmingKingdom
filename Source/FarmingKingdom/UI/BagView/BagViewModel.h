@@ -19,6 +19,9 @@ class FARMINGKINGDOM_API UBagViewModel : public UFarmUIBaseModel
 protected:
 	void PostInitProperties() override;
 
+public:
+	void InitData() override;
+
 private:
 	UPROPERTY()
 	TArray<UBagItemData*> BagItemList;

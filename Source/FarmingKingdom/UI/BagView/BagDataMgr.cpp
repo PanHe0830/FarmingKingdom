@@ -9,6 +9,7 @@ void UBagDataMgr::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 	InitBagData();
+	InitTableConfig();
 }
 
 void UBagDataMgr::InitBagData()
@@ -36,6 +37,16 @@ void UBagDataMgr::InitBagData()
 	}
 }
 
+void UBagDataMgr::InitTableConfig()
+{
+	DT_TagIcon = DT_TagIconPtr.LoadSynchronous();
+	if (!DT_TagIcon)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to load DT_TagIcon table."));
+		return;
+	}
+}
+
 void UBagDataMgr::SaveBagData()
 {
 	UFarmSaveGame* SaveObj = Cast<UFarmSaveGame>(UGameplayStatics::CreateSaveGameObject(UFarmSaveGame::StaticClass()));
@@ -49,4 +60,9 @@ void UBagDataMgr::SaveBagData()
 	SaveObj->BagData = RunTimeBagData;
 
 	UGameplayStatics::SaveGameToSlot(SaveObj, SlotName, UserIndex);
+}
+
+void UBagDataMgr::GetTagIconData(FGameplayTag Tag, FName& OutIconPath) const
+{
+
 }

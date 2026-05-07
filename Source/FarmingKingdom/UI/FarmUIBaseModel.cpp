@@ -8,8 +8,14 @@ void UFarmUIBaseModel::PostInitProperties()
 	Super::PostInitProperties();
 }
 
+void UFarmUIBaseModel::InitData()
+{
+
+}
+
 void UFarmUIBaseModel::ClearData()
 {
+
 }
 
 UGameInstance* UFarmUIBaseModel::GetGameInstance() const

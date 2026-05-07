@@ -115,6 +115,7 @@ void UFarmUIManagerSubsystem::CreateUI(FName UIName, TSoftClassPtr<UFarmUIBaseWi
 
     if (Widget && Model)
     {
+        Model->InitData();
         Widget->BindWidgetModel(Model);
         WidgetMap.Add(UIName, Widget);
     }

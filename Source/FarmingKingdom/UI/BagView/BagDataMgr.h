@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Config = Game)
 class FARMINGKINGDOM_API UBagDataMgr : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
@@ -20,6 +20,7 @@ public:
 
 private:
 	void InitBagData();
+	void InitTableConfig();
 
 public:
 	void SaveBagData();
@@ -29,9 +30,17 @@ public:
 		OutBagData = RunTimeBagData;
 	}
 
-private:
+	void GetTagIconData(FGameplayTag Tag, FName& OutIconPath) const;
+
+private:    
+	UPROPERTY(Config)
+	TSoftObjectPtr<UDataTable> DT_TagIconPtr;
+
 	UPROPERTY()
 	TMap<FGameplayTag, int32> RunTimeBagData;
+
+	UPROPERTY()
+	UDataTable* DT_TagIcon;
 
 	const FString SlotName = TEXT("BagSlot");
 	const int32 UserIndex = 0;
