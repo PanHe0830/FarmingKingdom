@@ -2,6 +2,7 @@
 
 
 #include "BagView.h"
+#include "BagItemData.h"
 
 #include <Components/TileView.h>
 
@@ -39,5 +40,20 @@ void UBagView::UnBindWidgetModel()
 
 void UBagView::InitBagItemView()
 {
-	//UTileView
+	TArray<UBagItemData*> BagItemList;
+
+	for (int i = 0; i < 20; ++i)
+	{
+		UBagItemData* ItemData = NewObject<UBagItemData>();
+		ItemData->Icon = nullptr;
+		ItemData->ItemText = FText::AsNumber(i + 1);
+		BagItemList.Add(ItemData);
+	}
+
+	TileView->ClearListItems();
+
+	for (UBagItemData* ItemData : BagItemList)
+	{
+		TileView->AddItem(ItemData);
+	}
 }

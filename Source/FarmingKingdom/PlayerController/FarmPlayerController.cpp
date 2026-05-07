@@ -18,6 +18,7 @@ void SelfBindAction()
 
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Farm_Mouse_Click", EKeys::LeftMouseButton));
 		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("Tab_Click", EKeys::Tab));
+		UPlayerInput::AddEngineDefinedActionMapping(FInputActionKeyMapping("B_Click", EKeys::B));
 	}
 }
 
@@ -29,6 +30,7 @@ void AFarmPlayerController::SetupInputComponent()
 
 	//InputComponent->BindAction("Farm_Mouse_Click", IE_Pressed, this, &AFarmPlayerController::MouseClick);
 	InputComponent->BindAction("Tab_Click", IE_Pressed, this, &AFarmPlayerController::TabClick);
+	InputComponent->BindAction("B_Click", IE_Pressed, this, &AFarmPlayerController::TestClick);
 }
 
 void AFarmPlayerController::BeginPlay()
@@ -91,6 +93,22 @@ void AFarmPlayerController::MouseClick()
 	buildContext.IgnoreStaticMeshComponent;
 	buildContext.bHit = bHit;
 	defaultPawn->MouseClick(buildContext);
+}
+
+void AFarmPlayerController::TestClick()
+{
+	UFarmUIManagerSubsystem* uiManager = GetGameInstance()->GetSubsystem<UFarmUIManagerSubsystem>();
+	if (uiManager)
+	{
+		if (uiManager->ShowUI("BagWidget"),0)
+		{
+			UE_LOG(LogTemp, Log, TEXT("UI State changed to MainMenu"));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Failed to change UI State to MainMenu"));
+		}
+	}
 }
 
 void AFarmPlayerController::TabClick()

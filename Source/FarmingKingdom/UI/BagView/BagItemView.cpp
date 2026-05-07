@@ -26,12 +26,12 @@ void UBagItemView::NativeOnListItemObjectSet(UObject* ListItemObject)
 
 void UBagItemView::SetItemImage(UTexture2D* Image)
 {
-	if (!Image) return;
+	//if (!Image) return;
 	ItemImage->SetBrushFromTexture(Image);
 }
 
 void UBagItemView::SetItemText(const FText& Text)
 {
-	if (Text.IsEmpty()) return;
+	//if (Text.IsEmpty()) return;
 	ItemTextBlock->SetText(Text);
 }
