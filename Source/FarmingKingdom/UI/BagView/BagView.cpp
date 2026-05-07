@@ -42,7 +42,7 @@ void UBagView::InitBagItemView()
 {
 	TArray<UBagItemData*> BagItemList;
 
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < BagSlotCount; ++i)
 	{
 		UBagItemData* ItemData = NewObject<UBagItemData>();
 		ItemData->Icon = nullptr;

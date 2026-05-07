@@ -39,4 +39,7 @@ private:
 public:
 	UPROPERTY(meta = (BindWidget))
 	UTileView* TileView;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BagView", meta = (ToolTip = "The number of slots in the bag", DisplayName = "BagSlotCount"))
+	int32 BagSlotCount = 1200;
 };
